@@ -1,1 +1,1 @@
-# eu-ai-act-saas
+# EU AI Act SaaS MVP
