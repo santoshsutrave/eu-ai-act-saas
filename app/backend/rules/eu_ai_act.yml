@@ -1,0 +1,11 @@
+version: "2025-01"
+prohibited:
+  - "social scoring"
+high_risk:
+  - keywords: ["biometric", "face recognition", "fingerprint", "iris"]
+  - keywords: ["hire","recruit","employment","cv","resume"]
+  - keywords: ["credit scoring","loan approval"]
+limited:
+  - keywords: ["synthetic media","deepfake","emotion detection"]
+defaults:
+  minimal: true
