@@ -7,9 +7,10 @@ create table orgs(
 );
 
 create table users(
-  id uuid primary key,              -- Keycloak sub
+  id uuid primary key default gen_random_uuid(),
   org_id uuid references orgs(id),
   email text unique not null,
+  hashed_password text,                        -- null for SSO/Keycloak users
   role text check (role in ('admin','contributor','auditor')) default 'contributor'
 );
 
@@ -53,7 +54,10 @@ create table audit_logs(
   created_at timestamptz default now()
 );
 
--- RLS example (repeat per table)
-alter table ai_systems enable row level security;
-create policy org_isolation_ai_systems on ai_systems
-  using (org_id = current_setting('app.org_id')::uuid);
+-- Row-Level Security (enable for production with a dedicated app role).
+-- Tenant isolation is enforced at the application layer.
+-- To enable: set app.org_id = '<uuid>' in each DB session and uncomment below.
+--
+-- alter table ai_systems enable row level security;
+-- create policy org_isolation_ai_systems on ai_systems
+--   using (org_id = current_setting('app.org_id', true)::uuid);
